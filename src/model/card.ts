@@ -1,17 +1,28 @@
 import { Color, Digit, Type } from "./types"
 
-interface MutableCard<C extends Color> {
-    color: C
-}
-
-//  Exclude<Type, "NUMBERED">
-interface MutableTypedCard<T extends Type, C extends Color> extends MutableCard<C> {
+type MutableCard<T extends Type> = {
     type: T
 }
 
-interface MutableNumberedCard<C extends Color> extends MutableCard<C> {
-    type: "NUMBERED",
+type MutableWildCard<T extends Extract<Type, "WILD" | "DRAW4">> = MutableCard<T> & {
+    type: T
+}
+
+type MutableColoredCard<T extends Type> = MutableCard<T> & {
+    color: Color
+}
+
+export type MutableTypedCard<T extends Exclude<Type, "NUMBERED">> = MutableColoredCard<Exclude<Type, "NUMBERED">> & {
+    type: T
+}
+
+type MutableNumberedCard<T extends Extract<Type, "NUMBERED">> = MutableColoredCard<T> & {
+    type: T,
     number: Digit
 }
 
-export type Card<T extends Type, C extends Color> = T extends "NUMBERED" ? Readonly<MutableNumberedCard<C>> : Readonly<MutableTypedCard<T, C>>;
+export type Card<T extends Type> =
+  T extends "NUMBERED" ? Readonly<MutableNumberedCard<"NUMBERED">> :
+  T extends "SKIP" | "REVERSE" | "DRAW2" ? Readonly<MutableTypedCard<T>> :
+  T extends "WILD" | "DRAW4" ? Readonly<MutableWildCard<T>> :
+  never;

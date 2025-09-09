@@ -30,17 +30,16 @@ export class DeckFactory {
     return Array.from({ length: n }, () => ({ type } as Card<T>));
   }
 
-  static createFullDeck(): Deck {
+  static createFullDeck(): Card<Type>[] {
     const COLORS: Color[] = ["BLUE", "RED", "GREEN", "YELLOW"];
     const TYPED_TYPES: Exclude<Type, "NUMBERED" | "WILD" | "DRAW4">[] = ["SKIP", "REVERSE", "DRAW2"];
     const WILD_TYPES: Extract<Type, "WILD" | "DRAW4">[] = ["WILD", "DRAW4"];
 
-    return {
-      cards: [
+    const cards = [
         ...COLORS.flatMap(color => this.createNumberedCards(color)),
         ...TYPED_TYPES.flatMap(type => COLORS.flatMap(color => this.createTypedCards(type, color, 2))),
         ...WILD_TYPES.flatMap(type => this.createWildCards(type, 4)),
-      ],
-    };
+      ] 
+    return cards;
   }
 }

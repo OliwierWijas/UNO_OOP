@@ -8,7 +8,8 @@ export interface PlayerHand {
 
     takeCards(cards: Card<Type>[]): void,
     playCard(index: number): Card<Type>,
-    addToScore(points: number): void
+    addToScore(points: number): void,
+    resetCards(): void,
 }
 
 export function playerHand(name: string, cards: Card<Type>[]): PlayerHand {
@@ -25,6 +26,9 @@ export function playerHand(name: string, cards: Card<Type>[]): PlayerHand {
         },
         addToScore(points: number) {
             this.score += points
+        },
+        resetCards() {
+            cards = []
         }
     }
 }

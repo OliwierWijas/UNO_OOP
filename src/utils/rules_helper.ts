@@ -1,5 +1,6 @@
 import { Card } from "../model/card";
 import { PlayerHand } from "../model/playerHand";
+import { Round } from "../model/round";
 import { Type } from "../model/types";
 
 export class RulesHelper {
@@ -65,4 +66,12 @@ export class RulesHelper {
     return totalScore
   }
 
+    static checkIfAnyoneHasScore500(currentRound: Round): PlayerHand | undefined {
+      currentRound.playerHands.forEach(p => {
+        if (p.score >= 500)
+          return p
+      })
+
+      return undefined
+  }
 }

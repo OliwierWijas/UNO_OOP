@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import BoardPage from '../components/BoardPage.vue'
+import Start from '../components/Start.vue'
 </script>
 
 <template>
   <main>
-    <BoardPage />
+    <Start />
   </main>
 </template>

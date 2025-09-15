@@ -3,17 +3,18 @@ import UnoCard from "./Card.vue";
 import type { Card, Type } from "./types";
 
 interface Props {
-  cards: Card<Type>[];
+  playerHand: PlayerHand;
 }
 
 defineProps<Props>();
 </script>
 
 <template>
+  <div>{{ playerHand.name }}</div>
   <div class="carousel-container">
     <div class="carousel">
       <UnoCard
-        v-for="(card, index) in cards"
+        v-for="(card, index) in playerHand.cards"
         :key="index"
         :card="card"
       />
@@ -46,12 +47,11 @@ defineProps<Props>();
   transform: scale(1.1);
 }
   
-/* Hide scrollbar for clean look */
 .carousel-container::-webkit-scrollbar {
   display: none;
 }
 .carousel-container {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 </style>

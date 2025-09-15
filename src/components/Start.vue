@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import WelcomeItem from './WelcomeItem.vue'
 import UnoCard from './Card.vue';
-import CardList from './CardList.vue'
+import PlayerHand from './PlayerHand.vue'
 
 const redFive: Card<"NUMBERED"> = {
   type: "NUMBERED",
@@ -15,9 +15,14 @@ const wildCard: Card<"WILD"> = {
 
 const cards = [redFive, redFive, redFive, redFive, redFive, redFive, redFive, redFive, redFive, redFive, redFive, redFive, redFive, redFive, wildCard]
 
+const playerHand: PlayerHand = {
+  name: "Oliwier",
+  cards: cards,
+}
+
 const openReadmeInEditor = () => fetch('/__open-in-editor?file=README.md')
 </script>
 
 <template>
-  <CardList :cards="cards" />
+  <PlayerHand :playerHand="playerHand" />
 </template>

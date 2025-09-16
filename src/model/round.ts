@@ -3,20 +3,21 @@ import { RulesHelper } from '../utils/rules_helper'
 import type { Card } from './card'
 import type { Deck } from './deck'
 import type { PlayerHand } from './playerHand'
+import type { DiscardPile } from './discardPile'
 
 export interface Round {
   playerHands: PlayerHand[]
   deck: Deck
   currentPlayer: PlayerHand | undefined
-  discardPile: Card<Type>[]
+  discardPile: DiscardPile
   isFinished: boolean
 
   distributeCards(): void
   nextPlayer(): void
-  putCard(card: Card<Type>): void
+  putCard(card: Card<Type>): boolean
 }
 
-export function round(hands: PlayerHand[], roundDeck: Deck): Round {
+export function round(hands: PlayerHand[], roundDeck: Deck, discardPile: DiscardPile): Round {
   function findDealer(playerHands: PlayerHand[]): PlayerHand {
     return playerHands[0] ///we might change here later with the actual logic
   }
@@ -25,13 +26,13 @@ export function round(hands: PlayerHand[], roundDeck: Deck): Round {
     playerHands: hands,
     deck: roundDeck,
     currentPlayer: undefined,
-    discardPile: [],
+    discardPile: discardPile,
     isFinished: false,
 
     distributeCards() {
       this.deck.shuffle()
       this.playerHands.forEach((p) => p.takeCards(this.deck.drawCards(7)))
-      this.discardPile.push(this.deck.drawCards(1)[0])
+      this.discardPile.addCard(this.deck.drawCards(1)[0])
     },
     nextPlayer() {
       if (!this.currentPlayer) {
@@ -44,49 +45,47 @@ export function round(hands: PlayerHand[], roundDeck: Deck): Round {
       this.currentPlayer = this.playerHands[nextIdx]
     },
 
-    putCard(card: Card<Type>) {
-      const lastCard = this.discardPile[this.discardPile.length - 1]
+    putCard(card: Card<Type>) : boolean {
+      const lastCard = this.discardPile.getTopCard()
 
-      if (this.currentPlayer && RulesHelper.canBePutOnTop(card, lastCard)) {
-        this.discardPile.push(card)
+      if (this.currentPlayer && RulesHelper.canBePutOnTop(lastCard, card)) {
+        this.discardPile.addCard(card)
 
         if (this.currentPlayer.playerCards.length === 0) {
           this.isFinished = true
           const score = RulesHelper.calculateScore(this.playerHands)
           this.currentPlayer.addToScore(score)
-          return
+          return true
         }
 
         switch (card.type) {
           case 'REVERSE':
             this.playerHands.reverse()
             this.nextPlayer()
-            break
+            return true
 
           case 'SKIP':
             this.nextPlayer()
             this.nextPlayer()
-            break
+            return true
 
           case 'DRAW2':
             this.nextPlayer()
             this.currentPlayer?.takeCards(this.deck.drawCards(2))
-            break
+            return true
 
           case 'DRAW4':
             this.nextPlayer()
             this.currentPlayer?.takeCards(this.deck.drawCards(4))
-            break
+            return true
 
           case 'WILD':
           case 'NUMBERED':
             this.nextPlayer()
-            break
-
-          default:
-            throw new Error('Unknown card type.')
+            return true
         }
       }
+      return false
     },
   }
 }

@@ -1,35 +1,53 @@
-import type { Card } from "./card"
-import type { Type } from "./types"
+import { ref } from "vue";
+import type { Card } from "./card";
+import type { Type } from "./types";
 
 export interface PlayerHand {
-  playerName: string
-  playerCards: Card<Type>[]
-  score: number
+  playerName: string;
+  playerCards: Card<Type>[];
+  score: number;
 
-  takeCards(cards: Card<Type>[]): void
-  playCard(index: number): Card<Type>
-  addToScore(points: number): void
-  resetCards(): void
+  putCardBack(card: Card<Type>, index: number): void;
+  takeCards(cards: Card<Type>[]): void;
+  playCard(index: number): Card<Type>;
+  addToScore(points: number): void;
+  resetCards(): void;
 }
 
-export function playerHand(name: string, cards: Card<Type>[]): PlayerHand {
+export function playerHand(name: string, initialCards: Card<Type>[]): PlayerHand {
+  const playerCards = ref<Card<Type>[]>([...initialCards]);
+  const score = ref(0);
+
   return {
     playerName: name,
-    playerCards: cards,
-    score: 0,
+
+    get playerCards() {
+      return playerCards.value;
+    },
+
+    score: score.value,
+
+    putCardBack(card: Card<Type>, index: number): void {
+      if (index < 0) index = 0;
+      if (index > playerCards.value.length) index = playerCards.value.length;
+
+      playerCards.value.splice(index, 0, card);
+    },
 
     takeCards(cards: Card<Type>[]) {
-      this.playerCards.push(...cards)
-      console.log(this.playerCards)
+      playerCards.value.push(...cards);
     },
+
     playCard(index: number): Card<Type> {
-      return cards.splice(index, 1)[0]
+      return playerCards.value.splice(index, 1)[0];
     },
+
     addToScore(points: number) {
-      this.score += points
+      score.value += points;
     },
+
     resetCards() {
-      cards = []
-    }
-  }
+      playerCards.value = [];
+    },
+  };
 }

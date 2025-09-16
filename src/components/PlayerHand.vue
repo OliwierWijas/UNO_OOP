@@ -1,12 +1,24 @@
 <script setup lang="ts">
 import type { PlayerHand } from "@/model/playerHand";
 import UnoCard from "./Card.vue";
+import type { Card } from "@/model/card";
+import type { Type } from "@/model/types";
 
 interface Props {
   playerHand: PlayerHand;
 }
 
-defineProps<Props>();
+const props = defineProps<Props>();
+
+const emit = defineEmits<{
+  (e: 'card-played', payload: { cardIndex: number; card: Card<Type> }): void;
+}>();
+
+function handleCardClick(index: number) {
+  const card = props.playerHand.playCard(index);
+  emit('card-played', { cardIndex: index, card });
+}
+
 </script>
 
 <template>
@@ -20,7 +32,8 @@ defineProps<Props>();
         v-for="(card, index) in playerHand.playerCards"
         :key="index"
         :card="card"
-        class="flex-none snap-center transition-transform duration-300 hover:scale-110"
+        class="flex-none snap-center transition-transform duration-300 hover:scale-110 cursor-pointer"
+        @click="handleCardClick(index)"
       />
     </div>
   </div>

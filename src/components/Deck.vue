@@ -2,17 +2,19 @@
 import type { Card } from '@/model/card';
 import type { Type } from '@/model/types';
 import deckImg from '@/components/images/Back_Card.png';
-import { deck as createDeck } from '@/model/deck';
+import type { Deck } from '@/model/deck';
+
+const props = defineProps<{
+  deck: Deck
+}>();
 
 const emit = defineEmits<{
   (e: 'card-drawn', card: Card<Type>): void
 }>();
 
-const gameDeck = createDeck();
-gameDeck.shuffle();
 
 function drawCard() {
-  const cards = gameDeck.drawCards(1);
+  const cards = props.deck.drawCards(1);
   if (cards.length > 0) {
     const drawn = cards[0];
     emit('card-drawn', drawn);

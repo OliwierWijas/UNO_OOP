@@ -4,7 +4,15 @@ import type { Round } from '@/model/round'
 import type { Type } from '@/model/types'
 
 export class RulesHelper {
-  static canBePutOnTop(topCard: Card<Type>, chosenCard: Card<Type>): boolean {
+  static canBePutOnTop(topCard: Card<Type> | undefined, chosenCard: Card<Type> | undefined): boolean {
+    if(topCard === undefined) {
+      return true;
+    }
+
+    if (chosenCard === undefined) {
+      throw new Error("Undefined card cannot be put in the discard pile.");
+    }
+
     // Wild cards can always be played
     if (chosenCard.type === 'WILD' || chosenCard.type === 'DRAW4') {
       return true

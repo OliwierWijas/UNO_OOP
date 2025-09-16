@@ -2,6 +2,7 @@
 import type { Card } from '@/model/card';
 import { playerHand as createPlayerHand } from '@/model/playerHand';
 import { useRoute } from 'vue-router';
+import PlayerHand from './PlayerHand.vue';
 
 const route = useRoute();
 const playerName = route.query.name as string || 'Player';

@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type { PlayerHand } from "@/model/playerHand";
 import UnoCard from "./Card.vue";
-import type { Card, Type } from "./types";
 
 interface Props {
   playerHand: PlayerHand;
@@ -10,11 +10,11 @@ defineProps<Props>();
 </script>
 
 <template>
-  <div>{{ playerHand.name }}</div>
+  <div>{{ playerHand.playerName }}</div>
   <div class="carousel-container">
     <div class="carousel">
       <UnoCard
-        v-for="(card, index) in playerHand.cards"
+        v-for="(card, index) in playerHand.playerCards"
         :key="index"
         :card="card"
       />

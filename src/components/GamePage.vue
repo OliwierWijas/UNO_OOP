@@ -3,23 +3,25 @@ import type { Card } from '@/model/card';
 import { playerHand as createPlayerHand } from '@/model/playerHand';
 import { useRoute } from 'vue-router';
 import PlayerHand from './PlayerHand.vue';
+import Deck from './Deck.vue';
+import type { Type } from '@/model/types';
+import { reactive } from 'vue';
 
 const route = useRoute();
-const playerName = route.query.name as string || 'Player';
+const playerName = (route.query.name as string) || 'Player';
 
-const redFive: Card<'NUMBERED'> = { type: 'NUMBERED', color: 'RED', number: 5 };
-const wildCard: Card<'WILD'> = { type: 'WILD' };
+const playerHand = reactive(createPlayerHand(playerName, []));
 
-const cards = [
-  redFive, redFive, redFive, redFive, wildCard
-];
-
-const playerHand = createPlayerHand(playerName, cards)
-
+function handleCardDrawn(card: Card<Type>) {
+  playerHand.takeCards([card]);
+  console.log(card)
+}
 </script>
 
 <template>
-  <div>
+  <div class="flex flex-col items-center gap-4">
+    <Deck @card-drawn="handleCardDrawn" />
+
     <PlayerHand :playerHand="playerHand" />
   </div>
 </template>

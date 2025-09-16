@@ -20,6 +20,7 @@ export function playerHand(name: string, cards: Card<Type>[]): PlayerHand {
 
     takeCards(cards: Card<Type>[]) {
       this.playerCards.push(...cards)
+      console.log(this.playerCards)
     },
     playCard(index: number): Card<Type> {
       return cards.splice(index, 1)[0]

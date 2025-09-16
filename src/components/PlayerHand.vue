@@ -10,47 +10,27 @@ defineProps<Props>();
 </script>
 
 <template>
-  <div>{{ playerHand.playerName }}</div>
-  <div class="carousel-container">
-    <div class="carousel">
+  <div class="text-center text-lg font-semibold mb-4">
+    {{ playerHand.playerName }}
+  </div>
+
+  <div class="overflow-x-auto snap-x snap-mandatory px-4 w-3/4 mx-auto scrollbar-hide">
+    <div class="flex gap-4">
       <UnoCard
         v-for="(card, index) in playerHand.playerCards"
         :key="index"
         :card="card"
+        class="flex-none snap-center transition-transform duration-300 hover:scale-110"
       />
     </div>
   </div>
 </template>
 
-<style scoped>
-.carousel-container {
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  padding: 1rem;
-  width: 75%;
-  margin: auto;
-}
-
-.carousel {
-  display: flex;
-  gap: 1rem;
-}
-
-.carousel > * {
-  flex: 0 0 auto;
-  scroll-snap-align: center;
-  transition: transform 0.3s;
-}
-
-.carousel > *:hover {
-  transform: scale(1.1);
-}
-  
-.carousel-container::-webkit-scrollbar {
+<style>
+.scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
-.carousel-container {
+.scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }

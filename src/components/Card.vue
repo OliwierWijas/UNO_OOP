@@ -47,12 +47,7 @@ const cardImage = computed(() => {
 </script>
 
 <template>
-  <img :src="cardImage" alt="UNO Card" class="w-full h-full object-cover" />
+  <div class="bg-white rounded-md w-24 h-36 overflow-hidden shadow-md mx-[4px]">
+    <img :src="cardImage" alt="UNO Card" class="w-full h-full object-cover cursor-pointer" />
+  </div>
 </template>
-
-<style scoped>
-.uno-card {
-  border: 2px solid #333;
-  background: white;
-}
-</style>

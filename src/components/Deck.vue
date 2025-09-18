@@ -25,12 +25,35 @@ function drawCard() {
 </script>
 
 <template>
-  <div class="flex flex-col items-center mt-4">
+  <div class="deck-container">
     <img
       :src="deckImg"
       alt="Deck"
-      class="h-[24rem] object-contain cursor-pointer rounded-md shadow-md transition-transform duration-300 hover:scale-110"
+      class="deck-image"
       @click="drawCard"
     />
   </div>
 </template>
+
+<style scoped>
+.deck-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem; 
+}
+
+.deck-image {
+  height: 14rem; 
+  object-fit: contain; 
+  cursor: pointer;
+  border-radius: 0.375rem; 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  transition: transform 0.3s; 
+
+}
+
+.deck-image:hover {
+  transform: scale(1.1); 
+}
+</style>

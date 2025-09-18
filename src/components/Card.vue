@@ -3,11 +3,12 @@ import type { Card } from "@/model/card";
 import type { Type } from "@/model/types";
 import { computed } from "vue";
 
-interface Props {
-  card: Card<Type>;
-}
-
-const props = defineProps<Props>();
+const props = defineProps({
+  card: {
+    type: Object as PropType<Card<Type>>,
+    required: true
+  }
+})
 
 function isColoredCard(card: Card<Type>): card is Extract<Card<Type>, { color: string }> {
   return 'color' in card;
@@ -47,7 +48,28 @@ const cardImage = computed(() => {
 </script>
 
 <template>
-  <div class="bg-white rounded-md w-24 h-36 overflow-hidden shadow-md mx-[4px]">
-    <img :src="cardImage" alt="UNO Card" class="w-full h-full object-cover cursor-pointer" />
+  <div class="card-container">
+    <img :src="cardImage" alt="UNO Card" class="card-image" />
   </div>
 </template>
+
+<style scoped>
+.card-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1rem;
+  
+}
+
+.card-image {
+  height: 14rem;
+  object-fit: contain;
+  cursor: pointer;
+  border-radius:15px; 
+  transition: transform 0.3s;
+}
+.card-image:hover {
+  transform: scale(1.1); 
+}
+</style>

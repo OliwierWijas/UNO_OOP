@@ -3,11 +3,12 @@ import { computed } from 'vue';
 import UnoCard from './Card.vue';
 import type { DiscardPile } from '@/model/discardPile';
 
-interface Props {
-  discardPile: DiscardPile;
-}
-
-const props = defineProps<Props>();
+const props = defineProps({
+  discardPile: {
+    type: Object as PropType<DiscardPile>,
+    required: true
+  }
+});
 
 const latestCard = computed(() => {
   const pile = props.discardPile;

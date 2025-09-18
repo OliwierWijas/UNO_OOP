@@ -13,6 +13,7 @@ const props = defineProps({
 <template>
   <div class="topbar-container">
     <div class="round">
+        <!-- add round number as paramiter later -->
       Round 1
     </div>
     <div class="players-row">
@@ -31,7 +32,7 @@ const props = defineProps({
 
 <style scoped>
 .topbar-container {
-  background-color: #ffffffff;
+  background-color: #272626ff;
   display: flex;
   flex-direction: column; /* stack round + players */
   align-items: center;    /* center everything horizontally */
@@ -46,6 +47,7 @@ const props = defineProps({
   font-weight: 900;
   font-size: 15px;
   margin-bottom: 10px;
+  color : #ffffffff
 }
 
 .players-row {
@@ -62,7 +64,7 @@ const props = defineProps({
   font-family: 'Trebuchet MS', sans-serif;
   font-weight: bold;
   font-size: 15px;
-  color : #0c0c0cff
+  color : #ffffffff
 }
 
 .score,
@@ -70,6 +72,6 @@ const props = defineProps({
   font-family: 'Trebuchet MS', sans-serif;
   margin-top: 5px;
    font-size: 12px;
-    color : #0c0c0cff
+    color : #ffffffff
 }
 </style>

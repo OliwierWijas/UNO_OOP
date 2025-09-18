@@ -17,12 +17,19 @@ const latestCard = computed(() => {
 </script>
 
 <template>
-  <div class="discard-pile w-24 h-36 relative">
+  <div>
     <div v-if="latestCard">
       <UnoCard :card="latestCard" />
     </div>
-    <div v-else class="w-full h-full bg-gray-200 flex items-center justify-center">
-      <span class="text-gray-500">Empty</span>
+    <div v-else >
+      <div class= "empty-space"></div>
     </div>
   </div>
 </template>
+
+<style>
+.empty-space {
+  height: 14rem;
+  width: 9.4rem
+}
+</style>

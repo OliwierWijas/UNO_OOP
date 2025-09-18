@@ -1,50 +1,80 @@
 <script setup lang="ts">
+import { type PropType, ref, defineProps, defineEmits } from 'vue'
 import type { PlayerHand } from "@/model/playerHand";
 import UnoCard from "./Card.vue";
 import type { Card } from "@/model/card";
 import type { Type } from "@/model/types";
 
-interface Props {
-  playerHand: PlayerHand;
-}
+const props = defineProps({
+  playerHand: {
+    type: Object as PropType<PlayerHand>,
+    required: true
+  }
+});
 
-const props = defineProps<Props>();
+const currentHand = ref(props.playerHand);
 
 const emit = defineEmits<{
   (e: 'card-played', payload: { cardIndex: number; card: Card<Type> }): void;
 }>();
 
-function handleCardClick(index: number) {
-  const card = props.playerHand.playCard(index);
+function playCard(index: number) {
+  const card = currentHand.value.playCard(index)
   emit('card-played', { cardIndex: index, card });
 }
 
+const spacing = 45
+const cardWidth = 80
+
+const cardStyle = (index) => {
+  const total = props.playerHand.playerCards.length
+  const groupWidth = cardWidth + spacing * (total - 1)
+  const left = `calc(50% - ${groupWidth / 2 - index * spacing}px)`
+  return {
+    left,
+    zIndex: index
+  }
+}
+
+
 </script>
-
 <template>
-  <div class="text-center text-lg font-semibold mb-4">
-    {{ playerHand.playerName }}
-  </div>
-
-  <div class="overflow-x-auto snap-x snap-mandatory px-4 w-3/4 mx-auto scrollbar-hide">
-    <div class="flex gap-4">
+  <div class="player-hand">
+    <div class="hand-cards">
       <UnoCard
         v-for="(card, index) in playerHand.playerCards"
         :key="index"
         :card="card"
-        class="flex-none snap-center transition-transform duration-300 hover:scale-110 cursor-pointer"
-        @click="handleCardClick(index)"
+        class="uno-card"
+        :style="cardStyle(index)"
+        @click="playCard(index)"
       />
     </div>
   </div>
 </template>
 
-<style>
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
+<style scoped>
+.player-hand {
+  position: relative;
+  width: 75%;                
+  height: 12rem;   
 }
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+
+.hand-cards {
+  display: flex;
+  height: 100%;
+  align-items: flex-end; 
+}
+
+.uno-card {
+  position: absolute;
+  bottom: 0;
+  transition: transform 0.3s ease; 
+  cursor: pointer;
+}
+
+.uno-card:hover {
+  transform: translateY(-2.5rem); 
+  z-index: 50;
 }
 </style>

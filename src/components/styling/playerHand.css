@@ -1,0 +1,29 @@
+.hand-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.cards-container {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scrollbar-width: none;       /* Firefox */
+}
+
+.cards-container::-webkit-scrollbar {
+  display: none;               /* Chrome/Safari */
+}
+
+.card {
+  min-width: 100px;
+  margin-right: 0.5rem;
+  flex-shrink: 0;
+}

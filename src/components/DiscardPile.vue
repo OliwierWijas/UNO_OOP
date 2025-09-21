@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, type PropType } from 'vue';
 import UnoCard from './Card.vue';
 import type { DiscardPile } from '@/model/discardPile';
 

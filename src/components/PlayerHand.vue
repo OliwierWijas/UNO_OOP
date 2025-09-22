@@ -26,7 +26,7 @@ function playCard(index: number) {
 const spacing = 45
 const cardWidth = 80
 
-const cardStyle = (index) => {
+const cardStyle = (index : number) => {
   const total = props.playerHand.playerCards.length
   const groupWidth = cardWidth + spacing * (total - 1)
   const left = `calc(50% - ${groupWidth / 2 - index * spacing}px)`

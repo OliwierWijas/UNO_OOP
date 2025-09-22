@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import UnoCard from './Card.vue';
 import type { DiscardPile } from '@/model/discardPile';
+import { type PropType,defineProps } from 'vue'
 
 const props = defineProps({
   discardPile: {

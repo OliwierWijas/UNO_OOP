@@ -21,7 +21,6 @@ const discardPile = reactive(createDiscardPile())
 
 const playerName = (route.query.name as string) || 'Player';
 const playerHand = reactive(createPlayerHand(playerName, []));
-
 const currentRound = reactive(createRound([playerHand], gameDeck, discardPile));
 
 //this is just for initiating the first player, it should be changed later once we have the start game setup
@@ -29,7 +28,6 @@ currentRound.nextPlayer()
 
 function handleCardDrawn(card: Card<Type>) {
   playerHand.takeCards([card]);
-
 }
 
 function handleCardPlayed(payload: { cardIndex: number; card: Card<Type> }) {
